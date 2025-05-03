@@ -32,11 +32,12 @@ def main() -> None:
                     defaults={"description": guild_data.get("description")})
 
         # Player
-        player, created = Player.objects.get_or_create(nickname=name,
-                                     bio=data["bio"],
-                                     email=data["email"],
-                                     race=race_obj,
-                                     guild=guild_obj)
+        player, created = Player.objects.get_or_create(
+            nickname=name,
+            bio=data["bio"],
+            email=data["email"],
+            race=race_obj,
+            guild=guild_obj)
         if not created:
             player.bio = data["bio"]
             player.email = data["email"]
@@ -49,7 +50,8 @@ def main() -> None:
             skill_obj, created = Skill.objects.get_or_create(
                 name=skill_data["name"],
                 race=race_obj,
-                defaults={"bonus": skill_data.get("bonus", ""), "race": race_obj}
+                defaults={"bonus": skill_data.get("bonus", ""),
+                          "race": race_obj}
             )
 
 
