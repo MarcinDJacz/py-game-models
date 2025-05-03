@@ -6,7 +6,7 @@ class Race(models.Model):
     description = models.TextField(blank=True)
 
     def __str__(self) -> str:
-        return self.name + " " + self.description
+        return f"{self.name} {self.description or ''}".strip()
 
 
 class Skill(models.Model):
@@ -15,7 +15,7 @@ class Skill(models.Model):
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
 
     def __str__(self) -> str:
-        return f"({self.name} {self.race.bonus} {self.race.description}"
+        return f"({self.name} {self.bonus} {self.race.description}"
 
 
 class Guild(models.Model):
@@ -25,7 +25,7 @@ class Guild(models.Model):
                                    null=True)
 
     def __str__(self) -> str:
-        return self.name + " " + self.description
+        return f"{self.name} {self.description or ''}".strip()
 
 
 class Player(models.Model):
@@ -42,4 +42,4 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.nickname + " " + self.race.description
+        return f"{self.nickname} {self.race.description}"
