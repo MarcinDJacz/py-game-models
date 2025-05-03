@@ -10,9 +10,16 @@ class Race(models.Model):
 
 
 class Skill(models.Model):
-    name = models.CharField(max_length=255, unique=True)
+    name = models.CharField(max_length=255)
     bonus = models.CharField(max_length=255)
     race = models.ForeignKey(Race, on_delete=models.CASCADE)
+
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["name", "race"],
+                name="unique_skill_per_race")
+        ]
 
     def __str__(self) -> str:
         return f"({self.name} {self.bonus} {self.race.description}"
@@ -25,7 +32,8 @@ class Guild(models.Model):
                                    null=True)
 
     def __str__(self) -> str:
-        return f"{self.name} {self.description or ''}".strip()
+        return (f"{self.name}"
+                f"{' - ' + self.description if self.description else ''}")
 
 
 class Player(models.Model):
@@ -42,4 +50,4 @@ class Player(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.nickname} {self.race.description}"
+        return f"{self.nickname} {self.email}"
